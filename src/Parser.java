@@ -39,8 +39,16 @@ class Parser {
 
     // images -> image images | image
     // image -> right_triangle | rectangle
-    // right_triangle -> RIGHT_TRIANGLE COLOR number_list AT number_list HEIGHT NUMBER WIDTH NUMBER ';'
-    // rectangle -> RECTANGLE_ COLOR number_list AT number_list HEIGHT NUMBER WIDTH NUMBER ';'
+    // right_triangle -> RIGHT_TRIANGLE COLOR number_list AT number_list HEIGHT
+    // NUMBER WIDTH NUMBER ';'
+    // rectangle -> RECTANGLE_ COLOR number_list AT number_list HEIGHT NUMBER WIDTH
+    // NUMBER ';'
+
+    // TODO: add the following Token checks:
+    // - Token.TEXT -> Token.STRING
+    // - Token.ISOSCELES
+    // - Token.PARRALLELLOGRAM -> Token.OFFSET
+    // - Token.REGULAR_POLYGON -> Token.SIDES -> Token.RADIUS
 
     private void parseImages(Scene scene, Token imageToken) throws LexicalError, SyntaxError, IOException {
         int height, width, offset, radius;
@@ -69,7 +77,7 @@ class Parser {
             Rectangle rectangle = new Rectangle(color, point, height, width);
             scene.addImage(rectangle);
         } else {
-             throw new SyntaxError(lexer.getLineNo(), "Unexpected image name " + imageToken);
+            throw new SyntaxError(lexer.getLineNo(), "Unexpected image name " + imageToken);
         }
         verifyNextToken(Token.SEMICOLON);
         token = lexer.getNextToken();
@@ -84,7 +92,7 @@ class Parser {
 
     // Returns an array of the numbers in the number list
 
-    private int[]  getNumberList(int count) throws LexicalError, SyntaxError, IOException {
+    private int[] getNumberList(int count) throws LexicalError, SyntaxError, IOException {
         int[] list = new int[count];
         verifyNextToken(Token.LEFT_PAREN);
         for (int i = 0; i < count; i++) {
@@ -108,8 +116,7 @@ class Parser {
             verifyNextToken(Token.NUMBER);
             list.add((int) lexer.getNumber());
             token = lexer.getNextToken();
-        }
-        while (token == Token.COMMA);
+        } while (token == Token.COMMA);
         verifyCurrentToken(Token.RIGHT_PAREN);
         int[] values = new int[list.size()];
         for (int i = 0; i < values.length; i++)

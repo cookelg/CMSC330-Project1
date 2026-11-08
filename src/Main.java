@@ -11,8 +11,10 @@ import javax.swing.*;
 
 class Main {
 
-    // The main method of the whole program, allows the name of the scene definition file to be input on the
-    // command line or selected using the file chooser dialog window. It calls the parser to parse the scene
+    // The main method of the whole program, allows the name of the scene definition
+    // file to be input on the
+    // command line or selected using the file chooser dialog window. It calls the
+    // parser to parse the scene
     // definition file and add the graphic objects to the scene.
 
     public static void main(String[] args) {
