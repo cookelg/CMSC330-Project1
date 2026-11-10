@@ -17,7 +17,8 @@ abstract class Image {
         this.color = color;
     }
 
-    // Sets the color of the image to be drawn. Must be called first by the draw function of the subclasses
+    // Sets the color of the image to be drawn. Must be called first by the draw
+    // function of the subclasses
 
     public void colorDrawing(Graphics graphics) {
         graphics.setColor(color);
@@ -25,5 +26,3 @@ abstract class Image {
 
     abstract void draw(Graphics graphics);
 }
-
-

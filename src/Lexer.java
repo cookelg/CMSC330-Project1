@@ -11,7 +11,8 @@ class Lexer {
 
     private StreamTokenizer tokenizer;
     private String punctuation = ",;.()";
-    private Token[] punctuationTokens = {Token.COMMA, Token.SEMICOLON, Token.PERIOD, Token.LEFT_PAREN, Token.RIGHT_PAREN };
+    private Token[] punctuationTokens = { Token.COMMA, Token.SEMICOLON, Token.PERIOD, Token.LEFT_PAREN,
+            Token.RIGHT_PAREN };
 
     // Constructor that creates a lexical analyzer object given the source file
 
@@ -30,11 +31,13 @@ class Lexer {
                 return Token.NUMBER;
             case StreamTokenizer.TT_WORD:
                 for (Token aToken : Token.values())
-                    if (aToken.name().replace("_","").equals(tokenizer.sval.toUpperCase()))
+                    if (aToken.name().replace("_", "").equals(tokenizer.sval.toUpperCase()))
                         return aToken;
                 return Token.IDENTIFIER;
             case StreamTokenizer.TT_EOF:
                 return Token.EOF;
+            case '"':
+                return Token.STRING;
             default:
                 for (int i = 0; i < punctuation.length(); i++)
                     if (token == punctuation.charAt(i))

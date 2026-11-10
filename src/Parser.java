@@ -51,7 +51,7 @@ class Parser {
     // - Token.REGULAR_POLYGON -> Token.SIDES -> Token.RADIUS
 
     private void parseImages(Scene scene, Token imageToken) throws LexicalError, SyntaxError, IOException {
-        int height, width, offset, radius;
+        int height, width, offset, radius, sides;
         verifyNextToken(Token.COLOR);
         int[] colors = getNumberList(3);
         Color color = new Color(colors[0], colors[1], colors[2]);
@@ -76,6 +76,36 @@ class Parser {
             width = lexer.getNumber();
             Rectangle rectangle = new Rectangle(color, point, height, width);
             scene.addImage(rectangle);
+        } else if (imageToken == Token.ISOSCELES) {
+            verifyNextToken(Token.HEIGHT);
+            verifyNextToken(Token.NUMBER);
+            height = lexer.getNumber();
+            verifyNextToken(Token.WIDTH);
+            verifyNextToken(Token.NUMBER);
+            width = lexer.getNumber();
+            Isosceles isosceles = new Isosceles(color, point, height, width);
+            scene.addImage(isosceles);
+        } else if (imageToken == Token.PARALLELOGRAM) {
+            int[] location2 = getNumberList(2);
+            Point bottomRight = new Point(location2[0], location2[1]);
+            verifyNextToken(Token.OFFSET);
+            verifyNextToken(Token.NUMBER);
+            offset = lexer.getNumber();
+            Parallelogram parallelogram = new Parallelogram(color, point, bottomRight, offset);
+            scene.addImage(parallelogram);
+        } else if (imageToken == Token.REGULAR_POLYGON) {
+            verifyNextToken(Token.SIDES);
+            verifyNextToken(Token.NUMBER);
+            sides = lexer.getNumber();
+            verifyNextToken(Token.RADIUS);
+            verifyNextToken(Token.NUMBER);
+            radius = lexer.getNumber();
+            RegularPolygon regularPolygon = new RegularPolygon(color, point, sides, radius);
+            scene.addImage(regularPolygon);
+        } else if (imageToken == Token.TEXT) {
+            String string = getString();
+            Text text = new Text(point, color, string);
+            scene.addImage(text);
         } else {
             throw new SyntaxError(lexer.getLineNo(), "Unexpected image name " + imageToken);
         }
@@ -122,6 +152,11 @@ class Parser {
         for (int i = 0; i < values.length; i++)
             values[i] = list.get(i);
         return values;
+    }
+
+    private String getString() throws LexicalError, SyntaxError, IOException {
+        verifyNextToken(Token.STRING);
+        return lexer.getLexeme();
     }
 
     // Verifies that the next token is the expected token

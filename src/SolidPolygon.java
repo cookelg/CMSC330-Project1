@@ -1,15 +1,15 @@
 import java.awt.*;
 
 public class SolidPolygon extends Polygon_ {
-    // TODO: come up with member variables for SolidPolygon
 
-    // TODO: create constructor for SolidPolygon
-    public SolidPolygon() {
-        super(Color.BLACK, 3);
+    public SolidPolygon(Color color, int vertexCount) {
+        super(color, vertexCount);
     }
 
-    // TODO: implement draw method for SolidPolygon
+    // Same as Hollow Polygon, except fillPolygon is used
     @Override
     public void drawPolygon(Graphics graphics, Polygon polygon) {
+        graphics.drawPolygon(polygon);
+        graphics.fillPolygon(polygon);
     }
 }
